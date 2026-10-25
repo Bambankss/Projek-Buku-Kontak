@@ -8,102 +8,44 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
-        html, body { 
-            height: 100%;
-        }
-
-        body { 
-            margin: 0;
-            overflow: hidden;
-            background: #f8f9fa;
-        }
+        html, body { height: 100%; }
+        body { margin: 0; overflow: hidden; background: #f8f9fa; }
 
         /* Layar dibagi: sidebar (1/3) di kiri + layar utama di kanan, bukan saling menimpa */
-        .app { 
-            display: flex;
-            height: 100vh;
-            height: 100dvh;
-        }
-
+        .app { display: flex; height: 100vh; height: 100dvh; }
         .sidebar {
-            width: 0;
-            flex-shrink: 0;
-            overflow: hidden;
-            background: #fff;
-            border-right: 1px solid #dee2e6;
-            transition: width .25s ease;
+            width: 0; flex-shrink: 0; overflow: hidden; background: #fff;
+            border-right: 1px solid #dee2e6; transition: width .25s ease;
         }
-
-        body.sidebar-open .sidebar { 
-            width: 33.3333%; 
-        }
-
+        body.sidebar-open .sidebar { width: 33.3333%; }
         .sidebar-inner {
-            min-width: 260px;
-            height: 100%;
-            padding: 1.25rem;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
+            min-width: 260px; height: 100%; padding: 1.25rem;
+            display: flex; flex-direction: column; overflow-y: auto;
         }
-        .main { 
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-        }
-    
+        .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
         .topbar {
-            display: flex;
-            align-items: center;
-            gap: .75rem;
-            flex-wrap: wrap;
-            padding: .75rem 1rem;
-            background: #fff;
-            border-bottom: 1px solid #dee2e6;
+            display: flex; align-items: center; gap: .75rem; flex-wrap: wrap;
+            padding: .75rem 1rem; background: #fff; border-bottom: 1px solid #dee2e6;
         }
-        .content { 
-            flex: 1;
-            min-height: 0;
-            position: relative;
-            display: flex;
-        }
-
-        .scroll-area { 
-            flex: 1;
-            overflow-y: auto;
-            position: relative;
-        }
+        .content { flex: 1; min-height: 0; position: relative; display: flex; }
+        .scroll-area { flex: 1; overflow-y: auto; position: relative; }
 
         /* HP: sidebar menutupi layar penuh karena 1/3 terlalu sempit */
         @media (max-width: 767.98px) {
-            body.sidebar-open .sidebar { 
-                position: fixed;
-                inset: 0;
-                width: 100%;
-                z-index: 1040; 
-            }
+            body.sidebar-open .sidebar { position: fixed; inset: 0; width: 100%; z-index: 1040; }
         }
 
         /* Avatar bulat ala Instagram */
         .ring {
-            flex-shrink: 0;
-            padding: 2px; 
-            border-radius: 50%;
+            display: inline-flex; /* supaya cincin pas mengelilingi avatar, tidak melebar penuh */
+            flex-shrink: 0; padding: 2px; border-radius: 50%;
             background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
         }
         .avatar {
-            width: 46px; 
-            height: 46px; 
-            border-radius: 50%; 
-            border: 2px solid #fff;
-            display: grid; 
-            place-items: center; 
-            color: #fff; 
-            font-weight: 600; 
-            font-size: 1.1rem;
+            width: 46px; height: 46px; border-radius: 50%; border: 2px solid #fff;
+            display: grid; place-items: center; color: #fff; font-weight: 600; font-size: 1.1rem;
         }
-        .ring-lg .avatar { width: 88px; height: 88px; font-size: 2rem; }
+        .ring-lg .avatar { width: 72px; height: 72px; font-size: 1.75rem; }
 
         /* Daftar kontak */
         .huruf-header {
@@ -151,11 +93,11 @@
                 <button type="button" class="btn-close" id="sidebarClose" aria-label="Tutup"></button>
             </div>
 
-            <div class="text-center mb-3">
-                <div class="ring ring-lg mx-auto">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="ring ring-lg">
                     <div class="avatar" style="background: #6f42c1;">{{ auth()->user()->inisial }}</div>
                 </div>
-                <h3 class="h5 mt-3 mb-0">{{ auth()->user()->name }}</h3>
+                <h3 class="h5 mb-0 text-break">{{ auth()->user()->name }}</h3>
             </div>
 
             <div class="list-group list-group-flush mb-3">
@@ -198,8 +140,10 @@
     {{-- Layar utama (kanan) --}}
     <div class="main">
         <header class="topbar">
-            <button type="button" class="btn btn-light border" id="sidebarToggle" aria-label="Buka profil dan menu">
-                <i class="bi bi-person-circle"></i>
+            <button type="button" class="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm"
+                    id="sidebarToggle" aria-label="Buka profil dan menu">
+                <i class="bi bi-list fs-5"></i>
+                <span class="d-none d-sm-inline">Menu</span>
             </button>
             <h1 class="h5 mb-0">@yield('heading', 'Kontak')</h1>
             <div class="ms-auto d-flex align-items-center gap-2 flex-wrap justify-content-end">
